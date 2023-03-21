@@ -1,0 +1,10 @@
+X:\Programming\FinalProject\Try1\Try1\obj\Debug\net6.0\DomeOfDuels.csproj.AssemblyReference.cache
+X:\Programming\FinalProject\Try1\Try1\obj\Debug\net6.0\DomeOfDuels.GeneratedMSBuildEditorConfig.editorconfig
+X:\Programming\FinalProject\Try1\Try1\obj\Debug\net6.0\DomeOfDuels.AssemblyInfoInputs.cache
+X:\Programming\FinalProject\Try1\Try1\obj\Debug\net6.0\DomeOfDuels.AssemblyInfo.cs
+X:\Programming\FinalProject\Try1\Try1\obj\Debug\net6.0\DomeOfDuels.csproj.CoreCompileInputs.cache
+X:\Programming\FinalProject\DomeOfDuels\DomeOfDuels\obj\Debug\net6.0\DomeOfDuels.csproj.AssemblyReference.cache
+X:\Programming\FinalProject\DomeOfDuels\DomeOfDuels\obj\Debug\net6.0\DomeOfDuels.GeneratedMSBuildEditorConfig.editorconfig
+X:\Programming\FinalProject\DomeOfDuels\DomeOfDuels\obj\Debug\net6.0\DomeOfDuels.AssemblyInfoInputs.cache
+X:\Programming\FinalProject\DomeOfDuels\DomeOfDuels\obj\Debug\net6.0\DomeOfDuels.AssemblyInfo.cs
+X:\Programming\FinalProject\DomeOfDuels\DomeOfDuels\obj\Debug\net6.0\DomeOfDuels.csproj.CoreCompileInputs.cache
