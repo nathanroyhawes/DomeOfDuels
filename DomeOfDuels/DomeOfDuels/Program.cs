@@ -8,25 +8,25 @@ using System.Reflection.Emit;
 namespace DomeOfDuels
 {
     internal class Program
+
     {
+        private static Hashtable itemTable = new Hashtable()
+        {
+            {1, new Item(1, "SWORD", 10, 20)},
+            {2, new Item(2, "FISTS", 5, 55)},
+            {3, new Item(3, "BOW & ARROW", 20, 35)}
+        };
+
+       
+
 
         static void Main(string[] args)
 
         {
-            Player player = new Player(20, 20, 6, 6);
-            Item item;
+            Player player = new Player(playerCurrentHP: 20, playerMaxHP: 20, playerAttack: 6, healAmt: 6);
            
-            Hashtable itemTable = new Hashtable();
 
-            Item item1 = new Item(1, "SWORD", +10, 20);
-            Item item2 = new Item(2, "FISTS", 5, 55);
-            Item item3 = new Item(3, "BOW & ARROW", 20, 35);
-
-            itemTable.Add(item1.Id, item1);
-            itemTable.Add(item2.Id, item2);
-            itemTable.Add(item3.Id, item3);
-
-            Item storedItem1 = (Item)itemTable[item1.Id];
+            Item storedItem1 = null;
 
  
             //offer weapon option and assign value to player attack
@@ -42,25 +42,45 @@ namespace DomeOfDuels
             }
             int weaponchoice = int.Parse(Console.ReadLine());
 
-            if (weaponchoice == 1)
+            
+            switch (weaponchoice) 
             {
-                Player player1 = new Player(20, 20, 6, 6);
+                case 1:
+                    Console.WriteLine("You have chosen the SWORD!");
+                    break;
 
-                Console.WriteLine("You have chosen the SWORD!");
+                case 2:
+                    Console.WriteLine("You have chosen your FISTS!");
+                    break;
 
+                case 3: Console.WriteLine("You have chosen the Bow & Arrow!");
+                    break;
+
+                default:
+                    throw new ArgumentException();
             }
-            else if (weaponchoice == 2)
-            {
-                Player player1 = new Player(20, 20, 6, 6);
-                player1.PlayerAttack += item2.AttackMod;
-                Console.WriteLine("You have chosen your FISTS!");
-            }
-            else if (weaponchoice == 3) 
-            {
-                Player player1 = new Player(20, 20, 6, 6);
-                player1.PlayerAttack += item3.AttackMod;
-                Console.WriteLine("You have chosen the Bow & Arrow!");
-            }
+
+            var item = (Item)itemTable[weaponchoice];
+
+            //if (weaponchoice == 1)
+            //{
+
+
+            //    Console.WriteLine("You have chosen the SWORD!");
+
+            //}
+            //else if (weaponchoice == 2)
+            //{
+            //    Player player1 = new Player(20, 20, 6, 6);
+            //    player1.PlayerAttack += item2.AttackMod;
+            //    Console.WriteLine("You have chosen your FISTS!");
+            //}
+            //else if (weaponchoice == 3) 
+            //{
+            //    //Player player1 = new Player(20, 20, 6, 6);
+            //    //player1.PlayerAttack += item3.AttackMod;
+            //    Console.WriteLine("You have chosen the Bow & Arrow!");
+            //}
 
             // Create table of enemies
             Hashtable enemyTable = new Hashtable();
@@ -74,9 +94,11 @@ namespace DomeOfDuels
             enemyTable.Add(enemy3.EnemyId, enemy3);
 
             Enemy storedEnemy1 = (Enemy)enemyTable[enemy1.EnemyId];
-            StartCombat(enemy1, player, item1);
+            StartCombat(enemy1, player, item);
 
         }
+
+
         static void StartCombat(Enemy enemy, Player player, Item item)
         {
             
@@ -90,15 +112,17 @@ namespace DomeOfDuels
                 var userinput = Console.ReadLine();
 
                 //add try again message for any invalid input
-                if (userinput == null)
+                if (userinput != "a" && userinput != "h")
                 {
-                    Console.WriteLine("try again");
+                    Console.WriteLine("Try again!");
+                    continue;
                 }
 
-                else if (userinput == "a")
+                if (userinput == "a")
                 {
-                    enemy.EnemyCurrentHp -= (player.PlayerAttack + item.AttackMod);
-                    Console.WriteLine("YOU deal " + (player.PlayerAttack + item.AttackMod) + " damage!");
+                    var damage = (player.PlayerAttack + item.AttackMod);
+                    enemy.EnemyCurrentHp -= damage;
+                    Console.WriteLine("YOU deal " + damage + " damage!");
                     Console.WriteLine(enemy.EnemyName + "HP: " + enemy.EnemyCurrentHp);
                     Console.WriteLine("_____________________");
                 }
@@ -130,7 +154,7 @@ namespace DomeOfDuels
                     else
                     {
                         enemy.EnemyCurrentHp += enemy.HealAmt;
-                        Console.WriteLine(enemy.EnemyName + "heals themself!");
+                        Console.WriteLine(enemy.EnemyName + " heals themself!");
                         Console.WriteLine(enemy.EnemyName + "HP: " + enemy.EnemyCurrentHp);
                         Console.WriteLine("_____________________");
                     }
