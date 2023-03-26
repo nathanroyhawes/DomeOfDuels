@@ -1,40 +1,36 @@
 ﻿using System;
-using System.ComponentModel.Design;
 using System.Collections.Generic;
 using System.Collections;
-using System.Globalization;
-using System.Reflection.Emit;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DomeOfDuels
 {
     internal class Program
 
     {
-        private static Hashtable itemTable = new Hashtable()
+        public static Hashtable itemTable = new Hashtable()
         {
             {1, new Item(1, "SWORD", 10, 20)},
             {2, new Item(2, "FISTS", 5, 55)},
             {3, new Item(3, "BOW & ARROW", 20, 35)}
         };
 
-       
-
 
         static void Main(string[] args)
 
         {
-            Player player = new Player(playerCurrentHP: 20, playerMaxHP: 20, playerAttack: 6, healAmt: 6);
-           
+            Player player = new Player(playerCurrentHP: 40, playerMaxHP: 40, playerAttack: 5, healAmt: 6, numberOfVictories: 0);
 
-            Item storedItem1 = null;
-
- 
             //offer weapon option and assign value to player attack
+            
+
             Console.WriteLine("CHOOSE YOUR WEAPON: ");
             Console.WriteLine("_______________________________");
             Console.WriteLine("");
             foreach (Item value in itemTable.Values)
             {
+                Console.WriteLine("ENTER {0}: ", value.Id);
                 Console.WriteLine("Item Name:{0}", value.Name);
                 Console.WriteLine("Attack Modifier:{0}", value.AttackMod);
                 Console.WriteLine("Value in Gold:{0}", value.Gold);
@@ -53,7 +49,7 @@ namespace DomeOfDuels
                     Console.WriteLine("You have chosen your FISTS!");
                     break;
 
-                case 3: Console.WriteLine("You have chosen the Bow & Arrow!");
+                case 3: Console.WriteLine("You have chosen the BOW & ARROW!");
                     break;
 
                 default:
@@ -62,32 +58,13 @@ namespace DomeOfDuels
 
             var item = (Item)itemTable[weaponchoice];
 
-            //if (weaponchoice == 1)
-            //{
-
-
-            //    Console.WriteLine("You have chosen the SWORD!");
-
-            //}
-            //else if (weaponchoice == 2)
-            //{
-            //    Player player1 = new Player(20, 20, 6, 6);
-            //    player1.PlayerAttack += item2.AttackMod;
-            //    Console.WriteLine("You have chosen your FISTS!");
-            //}
-            //else if (weaponchoice == 3) 
-            //{
-            //    //Player player1 = new Player(20, 20, 6, 6);
-            //    //player1.PlayerAttack += item3.AttackMod;
-            //    Console.WriteLine("You have chosen the Bow & Arrow!");
-            //}
 
             // Create table of enemies
             Hashtable enemyTable = new Hashtable();
 
-            Enemy enemy1 = new Enemy(0, "Carl the Killer", 5, 15, 15, 4);
-            Enemy enemy2 = new Enemy(1, "Louise the Loser", 7, 20, 20, 5);
-            Enemy enemy3 = new Enemy(2, "Veronica the Victorious", 10, 30, 30, 7);
+            Enemy enemy1 = new Enemy(enemyId: 0, enemyName: "Carl the Killer", enemyAttack: 5, enemyCurrentHp: 30, enemyMaxHp: 30, healAmt: 4);
+            Enemy enemy2 = new Enemy(enemyId: 1, enemyName: "Louise the Loser",enemyAttack: 7, enemyCurrentHp: 35, enemyMaxHp: 35, healAmt: 5);
+            Enemy enemy3 = new Enemy(enemyId: 2, enemyName: "Veronica the Victorious", enemyAttack: 10, enemyCurrentHp: 40, enemyMaxHp: 40, healAmt: 7);
 
             enemyTable.Add(enemy1.EnemyId, enemy1);
             enemyTable.Add(enemy2.EnemyId, enemy2);
@@ -95,6 +72,23 @@ namespace DomeOfDuels
 
             Enemy storedEnemy1 = (Enemy)enemyTable[enemy1.EnemyId];
             StartCombat(enemy1, player, item);
+
+
+
+            Console.WriteLine("Would you like to move to the next round?");
+            Console.WriteLine("enter 'y' for Yes or 'n' for No.");
+            var playAgain = Console.ReadLine();
+            
+            if (playAgain == "y")
+            {
+                StartCombat(enemy2, player, item);
+                
+            }
+            else
+            {
+                Console.WriteLine("THANK YOU FOR PLAYING!");
+                
+            }
 
         }
 
@@ -107,6 +101,7 @@ namespace DomeOfDuels
 
             while (player.PlayerCurrentHP > 0 && enemy.EnemyCurrentHp > 0)
             {
+                Console.WriteLine("");
                 Console.WriteLine("--- YOUR TURN ---");
                 Console.WriteLine("Enter 'a' to Attack or 'h' to Heal");
                 var userinput = Console.ReadLine();
@@ -123,22 +118,27 @@ namespace DomeOfDuels
                     var damage = (player.PlayerAttack + item.AttackMod);
                     enemy.EnemyCurrentHp -= damage;
                     Console.WriteLine("YOU deal " + damage + " damage!");
-                    Console.WriteLine(enemy.EnemyName + "HP: " + enemy.EnemyCurrentHp);
+                    Console.WriteLine("");
+                    Console.WriteLine(enemy.EnemyName + "'s HP: " + enemy.EnemyCurrentHp);
                     Console.WriteLine("_____________________");
+                    Console.WriteLine("");
                 }
                 else if (userinput == "h")
                 {
                     player.PlayerCurrentHP += player.HealAmt;
 
                     Console.WriteLine("You heal " + player.PlayerCurrentHP + " points!");
+                    Console.WriteLine("");
                     Console.WriteLine("YOUR HP: " + player.PlayerCurrentHP);
                     Console.WriteLine("_____________________");
+                    Console.WriteLine("");
                 }
 
                 //enemy's turn
 
                 if (enemy.EnemyCurrentHp > 0)
                 {
+                    
                     Console.WriteLine("--- " + enemy.EnemyName + "'s turn ---");
                     int enemychoice = random.Next(0, 2);
 
@@ -147,34 +147,50 @@ namespace DomeOfDuels
 
                         player.PlayerCurrentHP -= enemy.EnemyAttack;
                         Console.WriteLine(enemy.EnemyName + " deals " + enemy.EnemyAttack + "damage!");
+                        Console.WriteLine("");
                         Console.WriteLine("YOUR HP: " + player.PlayerCurrentHP);
                         Console.WriteLine("_____________________");
+                        Console.WriteLine("");
                     }
 
                     else
                     {
                         enemy.EnemyCurrentHp += enemy.HealAmt;
                         Console.WriteLine(enemy.EnemyName + " heals themself!");
-                        Console.WriteLine(enemy.EnemyName + "HP: " + enemy.EnemyCurrentHp);
+                        Console.WriteLine("");
+                        Console.WriteLine(enemy.EnemyName + "'s HP: " + enemy.EnemyCurrentHp);
                         Console.WriteLine("_____________________");
+                        Console.WriteLine("");
                     }
 
                 }
 
 
             }
-
-            if (player.PlayerCurrentHP <= 0)
+            var victory = enemy.EnemyCurrentHp <= 0;
+            var defeat = player.PlayerCurrentHP <= 0;
+           
+            if (defeat)
             {
                 Console.WriteLine("*-_- YOU HAVE PERISHED! -_-*");
             }
-            else if (enemy.EnemyCurrentHp <= 0)
+            else if (victory)
             {
-
                 Console.WriteLine("***-- FOE DEFEATED! --***");
+                player.NumberOfVictories++;
             }
+
+            Console.WriteLine("You have won " + player.NumberOfVictories + " time(s)!");
+
 
 
         }
+
+
+
+
+
+
+
     }
 }
