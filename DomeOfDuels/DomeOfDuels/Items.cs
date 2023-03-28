@@ -12,7 +12,6 @@ namespace DomeOfDuels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsWeapon { get; set; }
         public int AttackMod { get; set; }
         public int Gold { get; set; }
 
