@@ -13,14 +13,16 @@ namespace DomeOfDuels
         public int PlayerAttack { get; set; }
         public int HealAmt = 6;
         public int NumberOfVictories = 0;
+        public string PlayerName { get; set; }
 
-        public Player(int playerCurrentHP, int playerMaxHP, int playerAttack, int healAmt, int numberOfVictories)
+        public Player(int playerCurrentHP, int playerMaxHP, int playerAttack, int healAmt, int numberOfVictories, string playerName)
         {
             PlayerCurrentHP = playerCurrentHP;
             PlayerMaxHP = playerMaxHP;
             PlayerAttack = playerAttack;
             HealAmt = healAmt;
             NumberOfVictories = numberOfVictories;
+            PlayerName = playerName;
 
 
         }

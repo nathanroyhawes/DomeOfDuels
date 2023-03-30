@@ -17,19 +17,26 @@ namespace DomeOfDuels
         static void Main(string[] args)
 
         {
-           
-           //Player stats
-            Player player = new Player(playerCurrentHP: 100, playerMaxHP: 100, playerAttack: 5, healAmt: 6, numberOfVictories: 0);
+            //Player stats
+            Player player = new Player(playerCurrentHP: 100, playerMaxHP: 100, playerAttack: 5, healAmt: 6, numberOfVictories: 0, playerName:"{0}");
 
-
+            GetName(player);
             //Introduction to the game
+            Console.WriteLine("");
+            Console.WriteLine("In the year 30,000,000 C.E. the only source of entertainment are one-on-one duels...");
+            Console.WriteLine("A new challenger approaches to claim the the title of 'CHAMPION' ");
+            Console.WriteLine("");
+            Console.WriteLine("RISE " + player.PlayerName + "...");
+            Console.WriteLine("");
+            Console.Write("PRESS 'ENTER' TO CONTINUE >");
+            Console.ReadLine();
+            Console.WriteLine("");
             Console.WriteLine("WELCOME TO THE DOME OF DUELS!");
-            Console.WriteLine("In the year 30,000,000 the only source of entertainment are one-on-one duels");
             Console.WriteLine("");
             Console.WriteLine("The rules are simple:");
-            Console.WriteLine("Choose your weapon!");
-            Console.WriteLine("Each player will get a turn.");
-            Console.WriteLine("Fight until you drop! (or get tired of dueling)");
+            Console.WriteLine("-Choose your weapon-");
+            Console.WriteLine("-Fighters will take turns-");
+            Console.WriteLine("-Fight until you drop! (or get tired of dueling)-");
             Console.WriteLine("");
             Console.WriteLine("");
 
@@ -43,7 +50,6 @@ namespace DomeOfDuels
                 Console.WriteLine("ENTER {0}: ", value.Id);
                 Console.WriteLine("Item Name:{0}", value.Name);
                 Console.WriteLine("Attack Modifier:{0}", value.AttackMod);
-                Console.WriteLine("Value in Gold:{0}", value.Gold);
                 Console.WriteLine("_______________________________");
             }
             int weaponchoice = int.Parse(Console.ReadLine());
@@ -73,9 +79,9 @@ namespace DomeOfDuels
             // Create table of enemies
             Hashtable enemyTable = new Hashtable();
 
-            Enemy enemy1 = new Enemy(enemyId: 0, enemyName: "Carl the Killer", enemyAttack: 5, enemyCurrentHp: 30, enemyMaxHp: 30, healAmt: 4);
-            Enemy enemy2 = new Enemy(enemyId: 1, enemyName: "Louise the Loser",enemyAttack: 7, enemyCurrentHp: 35, enemyMaxHp: 35, healAmt: 5);
-            Enemy enemy3 = new Enemy(enemyId: 2, enemyName: "Veronica the Victorious", enemyAttack: 10, enemyCurrentHp: 40, enemyMaxHp: 40, healAmt: 7);
+            Enemy enemy1 = new Enemy(enemyId: 0, enemyName: "Carl the Killer", enemyAttack: 25, enemyCurrentHp: 26, enemyMaxHp: 30, healAmt: 4);
+            Enemy enemy2 = new Enemy(enemyId: 1, enemyName: "Louise the Loser",enemyAttack: 5, enemyCurrentHp: 35, enemyMaxHp: 35, healAmt: 10);
+            Enemy enemy3 = new Enemy(enemyId: 2, enemyName: "Veronica the Victorious", enemyAttack: 15, enemyCurrentHp: 40, enemyMaxHp: 40, healAmt: 7);
 
             enemyTable.Add(enemy1.EnemyId, enemy1);
             enemyTable.Add(enemy2.EnemyId, enemy2);
@@ -223,18 +229,24 @@ namespace DomeOfDuels
             if (defeat)
             {
               Console.WriteLine("*-_- YOU HAVE PERISHED! -_-*");
+              Console.WriteLine("");
             }
             else if (victory)
             {
               Console.WriteLine("***-- FOE DEFEATED! --***");
+              Console.WriteLine("");
               player.NumberOfVictories++;
             }
+            Console.WriteLine("");
+            Console.WriteLine(player.PlayerName + ".... you have won " + player.NumberOfVictories + " time(s)!");
 
-            Console.WriteLine("You have won " + player.NumberOfVictories + " time(s)!");
-
-           
 
         }
-
+        //gets player name
+        static void GetName(Player player)
+        {
+            Console.WriteLine("Please enter your name...");
+            player.PlayerName = Console.ReadLine();
+        }
     }
 }
