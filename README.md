@@ -17,4 +17,4 @@ Enter "h" to heal
 Features:
 1. Master Loop - the player can choose to play again after each battle (Do/While Loop)
 2. Create dictionary or list - In this case I have chosen another form of collections, hashtables. 
-3. LINQ Query - a linq query is used to organize the enemies by attack power, the results are printed to the console
+3. LINQ Query - a LINQ query is used to organize the enemies by attack power, the results are printed to the console
